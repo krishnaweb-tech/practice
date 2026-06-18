@@ -1,38 +1,300 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: #504bb5;
+}
+
 .App {
-  text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+.main-div {
+    width: 30%;
+    height: auto;
+    background-color: #f8f3f3;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.main-div h2 {
+    text-align: center;
+    padding-top: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #bebbbb;
+    color: #4a4848;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.sub-text {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 30px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.innerdiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    gap:20px;
+    padding-bottom: 30px;
+    
+}
+
+.loginbutton,
+.signinbutton {
+    width: 30%;
+    height: 45px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #4f46e5;
+    color: white;
+    border: none;
+   
+}
+
+
+.loginbutton:hover {
+    background: #3b31d4;
+    transform: translateY(-2px);
+    /* Moves up slightly on hover */
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+.signinbutton:hover {
+    background: #3b31d4;
+    transform: translateY(-2px);
+    /* Moves up slightly on hover */
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+/* login page */
+.login-div {
+    width: 30%;
+    height: auto;
+    background-color: #f8f3f3;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+
+.login-div h3 {
+    padding: 20px;
+    border-bottom: 2px solid rgb(163, 162, 162);
+    text-align: center;
+}
+
+.input {
+    /* margin-bottom: 30px; */
+    margin: 30px 30px;
+}
+
+.login-div input {
+     width: 90%;
+    height: 40px;
+    background-color: #e2d9d9;
+    margin-top: 20px;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.button-container {
+    text-align: center;
+}
+
+.submit-btn {
+    width: 40%;
+    height: 45px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    margin-bottom: 20px;
+}
+.submit-btn:hover{
+     background: #3b31d4;
+    transform: translateY(-2px);
+    /* Moves up slightly on hover */
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+.login-div p{
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+/* exam selection section */
+
+.exam-div{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px;
+}
+.exam-div button{
+    width: 70%;
+    height: 50px; 
+    margin: 10px auto;
+    display: block;
+    background: white;
+    color: #323030;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;  
+    border: none; 
+}
+.exam-div button.selected{
+    background: #4d45dd;
+    color: white;
+}
+.quizz-question {
+     padding: 15px;
+     font-size: 16px;
+     color: #474242;;
+}
+.options{
+    display: flex;
+    width:90%;
+    padding:10px;
+    margin-bottom: 20px;
+    margin: auto;
+    font-size: 15px;
+}
+/* QUESTION TEXT */
+.main-div h3 {
+  margin: 15px 15px;
+  font-size: 18px;
+  color: #222;
+}
+/* OPTIONS CONTAINER */
+.options {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 12px;
+  margin-top: 20px;
+}
+/* OPTION BUTTON */
+.options button {
+  padding: 12px;
+  border: 2px solid #ddd;
+  background: #f9f9f9;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+/* OPTION HOVER */
+.options button:hover {
+  background: #e9e9ff;
+  border-color: #4f46e5;
+}
+/* SELECTED OPTION */
+.options .selected {
+  background: #4f46e5;
   color: white;
+  border-color: #4f46e5;
+}
+/* NAVIGATION BUTTONS */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  margin-bottom: 15px;
+   
+}
+/* NEXT / PREVIOUS / SUBMIT BUTTONS */
+.navigation button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #4f46e5;
+  color: white;
+  transition: 0.2s;
+}
+ .Previous{
+    margin-left: 20px;
+}
+.Next{
+    margin-right: 20px;
+}
+/* HOVER EFFECT */
+.navigation button:hover {
+  background: #3b31d4;
+}
+/* DISABLED BUTTON */
+.navigation button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
-.App-link {
-  color: #61dafb;
+/* result section */
+
+
+.result-card h3 {
+  text-align: center;
+  /* padding: 10px; */
+}
+.result-card p{
+     text-align: center;
+
+}
+.result-card button {
+ 
+  margin-top: 20px;
+  width: 60%;
+  height: 45px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: block;   
+  margin: 30px auto; 
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+ 
+
+.result-btn:hover {
+  background: #3b31d4;
+  transform: translateY(-2px);
+}
+
+.review-section{
+  margin-top: 20px;
+  padding: 15px;
+}
+
+.review-box{
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9f9f9;
+}
+
+.review-box p{
+  text-align: left;
+  margin: 6px 0;
 }
