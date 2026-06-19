@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import { questions } from "./Data/question";
 
 function Result({
@@ -13,6 +13,27 @@ function Result({
   const filtered = questions.filter(q => q.type === selectedExam);
   const total = filtered.length;
   const percentage = ((score / total) * 100).toFixed(1);
+
+
+  useEffect(() => {
+  const resultData = {
+    playerName,
+    exam: selectedExam,
+    score,
+    totalQuestions: total,
+    percentage
+  };
+
+  const savedResults =
+    JSON.parse(localStorage.getItem("results")) || [];
+
+  savedResults.push(resultData);
+
+  localStorage.setItem(
+    "results",
+    JSON.stringify(savedResults)
+  );
+}, [playerName, selectedExam, score, total, percentage]); 
 
   return (
     <div className="App">
