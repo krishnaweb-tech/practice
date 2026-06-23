@@ -298,3 +298,14 @@ body {
   text-align: left;
   margin: 6px 0;
 }
+
+/* admin side */
+.sidemenu{
+  width: 20%;
+  height: 100%;
+  padding: 40px;
+  background-color: #ddd;
+}
+.sidemenu h2{
+    padding: 30px;
+}

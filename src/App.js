@@ -1,4 +1,3 @@
-
 import './App.css';
 import LoginIn from './login';
 import SignIn from './signin';
@@ -6,77 +5,109 @@ import React, { useState, useEffect } from "react";
 import ExamSelection from './examselection';
 import Quizz from './quizz';
 import Result from './result';
+import Admin from './Admin/admin';
 
 function App() {
-
   const [playerName, setPlayerName] = useState("");
   const [page, setPage] = useState("home");
   const [selectedExam, setSelectedExam] = useState("");
   const [score, setScore] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
 
-  
-  //  Save users to localStorage whenever users change
+  const defaultAdmin = {
+    firstName: "Admin",
+    email: "admin@gmail.com",
+    password: "admin123",
+    role: "admin"
+  };
 
- const [users, setUsers] = useState(() => {
-  try {
-    const savedUsers = localStorage.getItem("users");
-    return savedUsers ? JSON.parse(savedUsers) : [];
-  } catch {
-    return [];
-  }
-});
+  const [users, setUsers] = useState(() => {
+    try {
+      const savedUsers = JSON.parse(localStorage.getItem("users")) || [];
 
-useEffect(() => {
-  localStorage.setItem("users", JSON.stringify(users));
-}, [users]);
+      // Check if admin already exists
+      const adminExists = savedUsers.some(
+        user => user.email === "admin@gmail.com"
+      );
+
+      // If not, add admin
+      if (!adminExists) {
+        return [...savedUsers, defaultAdmin];
+      }
+
+      return savedUsers;
+    } catch {
+      return [defaultAdmin];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("users", JSON.stringify(users));
+  }, [users]);
+
   return (
     <>
-
+      {/* Home */}
       {page === "home" && (
-        <div className='App'>
+        <div className="App">
           <div className="main-div">
-
             <h2>Welcome to Online Examination</h2>
 
             <p className="sub-text">
               Please log in to your existing account or sign up to create a new one to start your examination.
             </p>
 
-            <div className='innerdiv'>
-              <button className='loginbutton' onClick={() => setPage("login")}>
+            <div className="innerdiv">
+              <button
+                className="loginbutton"
+                onClick={() => setPage("login")}
+              >
                 Log In
               </button>
 
-              <button className='loginbutton' onClick={() => setPage("signup")}>
+              <button
+                className="loginbutton"
+                onClick={() => setPage("signup")}
+              >
                 Sign Up
               </button>
             </div>
-
           </div>
         </div>
       )}
 
-      {/* all routes */}
-
-      {/* login page */}
-
-      {page === 'login' && (
-        <LoginIn users={users} setPage={setPage} setPlayerName={setPlayerName} page={page} key={page} />
+      {/* Login */}
+      {page === "login" && (
+        <LoginIn
+          users={users}
+          setPage={setPage}
+          setPlayerName={setPlayerName}
+          page={page}
+          key={page}
+        />
       )}
 
-      {/* sign up page */}
-      {page === 'signup' && (
-        <SignIn users={users} setUsers={setUsers} setPage={setPage} page={page} key={page} />
+      {/* Signup */}
+      {page === "signup" && (
+        <SignIn
+          users={users}
+          setUsers={setUsers}
+          setPage={setPage}
+          page={page}
+          key={page}
+        />
       )}
 
-      {/* examselection page */}
-      {page === 'exam' && (
-        <ExamSelection setPage={setPage} setSelectedExam={setSelectedExam} />
+      {/* Exam Selection */}
+      {page === "exam" && (
+        <ExamSelection
+          setPage={setPage}
+          setSelectedExam={setSelectedExam}
+        />
       )}
 
-      {/* Quizz page */}
-      {page === 'quizz' && (
+      {/* Quiz */}
+      {page === "quizz" && (
         <Quizz
           selectedExam={selectedExam}
           setPage={setPage}
@@ -85,9 +116,9 @@ useEffect(() => {
           setUserAnswers={setUserAnswers}
         />
       )}
-      {/* Result Page */}
 
-      {page === 'result' && (
+      {/* Result */}
+      {page === "result" && (
         <Result
           score={score}
           playerName={playerName}
@@ -97,8 +128,11 @@ useEffect(() => {
         />
       )}
 
+      {/* Admin */}
+      {page === "admin" && (
+        <Admin setPage={setPage} />
+      )}
     </>
-
   );
 }
 

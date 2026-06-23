@@ -1,36 +1,43 @@
 import React, { useState, useEffect } from 'react'
 
-export default function LoginIn({users,setPage,setPlayerName, page}) {
+export default function LoginIn({ users, setPage, setPlayerName, page }) {
 
-  const[email, setEmail] = useState('')
-   const[password, setPassword] = useState('')
-   const[error, setError] =useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
 
-   const handleLogin = ()=>{
-    const validUser = users.find((user)=>user.email === email && user.password === password
-   );
-   
-  if (validUser) {
-  setError("");
+  const handleLogin = () => {
+    const validUser = users.find((user) => user.email === email && user.password === password
+    );
 
-  setPlayerName(validUser.firstName); 
+    if (validUser) {
+      setError("");
+      setPlayerName(validUser.firstName);
 
-  setPage("exam");
-}
-   else{
-    setError("Email or password is incorrect");
-   }
-  
+      // Clear inputs
+      setEmail("");
+      setPassword("");
+
+      if (validUser.role === 'admin') {
+        setPage('admin')
+      } else {
+        setPage('exam')
+      }
+    }
+    else {
+      setError("Email or password is incorrect");
+    }
+
   }
 
-useEffect(() => {
-  if (page === "login") {
-    setEmail("");
-    setPassword("");
-    setError("");
-  }
-}, [page]);
+  useEffect(() => {
+    if (page === "login") {
+      setEmail("");
+      setPassword("");
+      setError("");
+    }
+  }, [page]);
 
   return (
 
@@ -40,15 +47,28 @@ useEffect(() => {
         <h3> Enter Your Log in Details</h3>
 
         <div className='input'>
-          <input type='e-mail' value={email} placeholder='Enter Your E-mail' onChange={(e) => setEmail(e.target.value)}/>
-          <input type='password' value={password} placeholder='Enter Your Password' onChange={(e) => setPassword(e.target.value)} />
+          <input
+            type="email"
+            value={email}
+            placeholder="Enter Your E-mail"
+            autoComplete="off"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            value={password}
+            placeholder="Enter Your Password"
+            autoComplete="new-password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
 
         {error && (
-          <p style={{color:'red', textAlign:'center'}}>{error}</p>
+          <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
         )}
 
-        <div class="button-container">
+        <div className="button-container">
           <button class="submit-btn" onClick={handleLogin}>Log in</button>
         </div>
         <p>
@@ -60,7 +80,7 @@ useEffect(() => {
             Signup
           </span>
         </p>
-      
+
       </div>
     </div>
   )
