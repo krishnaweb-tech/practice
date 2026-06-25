@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import ExamSelection from './examselection';
 import Quizz from './quizz';
 import Result from './result';
-import Admin from './Admin/admin';
+import Admin from './Admin/Admin.jsx';
 
 function App() {
   const [playerName, setPlayerName] = useState("");

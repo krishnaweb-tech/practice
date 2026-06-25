@@ -1,32 +1,22 @@
-import React from 'react'
-
-
-export default function Admin() {
+import React, { useState } from "react";
+import Sidebar from "./Sidebar.jsx";
+import Dashboard from "./Dashboard.jsx";
+import Users from "./Users.jsx";
+import Results from "./Result.jsx";
+import "./Admin.css";
+ 
+export default function Admin({ setPage: setAppPage }) {
+  const [page, setPage] = useState("dashboard");
+ 
   return (
-    <div>
-      <div className='sidemenu'>
-        <h2>Logo</h2>
-        <ul>
-          <li>Dashbord</li>
-          <li>Admin User List</li>
-          <li>Resume List</li>
-          <li>Biolist</li>
-          <li>Categiores</li>
-          <li>User Review List</li>
-          <li>Subscriber List</li>
-          <li>Inquiry List</li>
-          <li>Domains</li>
-          <li></li>
-        </ul>
-
+    <div className="admin-container">
+      <Sidebar setPage={setPage} currentPage={page} />
+      <div className="admin-content">
+        {page === "dashboard" && <Dashboard />}
+        {page === "users" && <Users />}
+        {page === "results" && <Results />}
       </div>
-      
-
     </div>
-  )
+  );
 }
-
-
-
-
-
+ 
