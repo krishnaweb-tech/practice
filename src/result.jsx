@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect, useRef } from "react"; 
 import { questions } from "./Data/question";
 
 function Result({
@@ -10,30 +10,31 @@ function Result({
 }) {
   const [showReview, setShowReview] = useState(false);
 
+  const saved = useRef(false); // 👈 track કરો — save થયું કે નહિ
+
   const filtered = questions.filter(q => q.type === selectedExam);
   const total = filtered.length;
   const percentage = ((score / total) * 100).toFixed(1);
 
-
   useEffect(() => {
-  const resultData = {
-    playerName,
-    exam: selectedExam,
-    score,
-    totalQuestions: total,
-    percentage
-  };
 
-  const savedResults =
-    JSON.parse(localStorage.getItem("results")) || [];
+    if (saved.current) return;
+    saved.current = true;
 
-  savedResults.push(resultData);
+    const resultData = {
+      playerName,
+      exam: selectedExam,
+      score,
+      totalQuestions: total,
+      percentage,
+      date: new Date().toLocaleDateString("en-GB")
+    };
 
-  localStorage.setItem(
-    "results",
-    JSON.stringify(savedResults)
-  );
-}, [playerName, selectedExam, score, total, percentage]); 
+    const savedResults = JSON.parse(localStorage.getItem("results")) || [];
+    savedResults.push(resultData);
+    localStorage.setItem("results", JSON.stringify(savedResults));
+
+  }, []); 
 
   return (
     <div className="App">
@@ -50,7 +51,7 @@ function Result({
         <h3>Percentage: {percentage}%</h3>
 
         {/* BUTTONS */}
-        <button onClick={() => {setPage("exam");}}> Try Another Exam </button>
+        <button onClick={() => setPage("exam")}> Try Another Exam </button>
 
         <button
           onClick={() => setShowReview(!showReview)}
@@ -78,11 +79,11 @@ function Result({
                     let color = "";
 
                     if (opt === q.answer) {
-                      color = "green"; // correct answer
+                      color = "green";
                     }
 
                     if (opt === userAns && userAns !== q.answer) {
-                      color = "red"; // wrong selected answer
+                      color = "red";
                     }
 
                     return (
