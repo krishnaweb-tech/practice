@@ -26,15 +26,15 @@ function SignIn({ users, setPage, setUsers , page}) {
       return;
     }
 
-    // Create new user
-
+     // Create new user
     const newUser = {
+      id: Date.now(),                                   
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       email: email.trim(),
-      password: password
+      password: password,
+      createdDate: new Date().toLocaleDateString("en-GB") 
     };
-
 
 
     // Save user

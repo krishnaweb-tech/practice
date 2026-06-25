@@ -6,12 +6,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export default function Users() {
 
-  // LocalStorage 
   const [users, setUsers] = useState(
     JSON.parse(localStorage.getItem("users")) || []
   );
 
-  // Search text track 
   const [search, setSearch] = useState("");
 
   // ─── Delete User ───────────────────────────────
@@ -29,7 +27,6 @@ export default function Users() {
     return name.includes(keyword) || email.includes(keyword);
   });
 
-  // ─── UI ────────────────────────────────────────
   return (
     <div className="users-wrapper">
 
@@ -59,6 +56,7 @@ export default function Users() {
           {/* Table Header */}
           <thead>
             <tr>
+              <th>#ID</th>         
               <th>PROFILE</th>
               <th>NAME</th>
               <th>EMAIL</th>
@@ -73,7 +71,7 @@ export default function Users() {
             {/* No users found */}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan="5" className="no-users">
+                <td colSpan="6" className="no-users">
                   No users found.
                 </td>
               </tr>
@@ -82,6 +80,11 @@ export default function Users() {
             {/* Users list */}
             {filtered.length > 0 && filtered.map((user, index) => (
               <tr key={index}>
+
+                {/* Unique ID */}
+                <td className="user-id">
+                  #{user.id || index + 1}   {/* 👈 ID show કરો */}
+                </td>
 
                 {/* Profile Icon */}
                 <td>
@@ -95,7 +98,7 @@ export default function Users() {
                 <td className="user-email">{user.email}</td>
 
                 {/* Date */}
-                <td>{new Date().toLocaleDateString("en-GB")}</td>
+                <td>{user.createdDate || new Date().toLocaleDateString("en-GB")}</td>
 
                 {/* Action Buttons */}
                 <td>
