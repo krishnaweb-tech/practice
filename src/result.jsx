@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react"; 
-import { questions } from "./Data/question";
+import React, { useState, useEffect, useRef } from "react";
+
 
 function Result({
   score,
@@ -8,101 +8,264 @@ function Result({
   selectedExam,
   userAnswers
 }) {
+
+
   const [showReview, setShowReview] = useState(false);
 
-  const saved = useRef(false); // 👈 track કરો — save થયું કે નહિ
+  const saved = useRef(false);
 
-  const filtered = questions.filter(q => q.type === selectedExam);
+
+
+  // Get questions from Admin localStorage
+  const questions =
+    JSON.parse(localStorage.getItem("questions")) || [];
+
+
+
+  const filtered = questions.filter(
+    q => q.type === selectedExam
+  );
+
+
   const total = filtered.length;
-  const percentage = ((score / total) * 100).toFixed(1);
+
+
+  const percentage =
+    total > 0
+      ? ((score / total) * 100).toFixed(1)
+      : 0;
+
+
 
   useEffect(() => {
 
-    if (saved.current) return;
+
+    if(saved.current) return;
+
     saved.current = true;
 
+
+
     const resultData = {
+
+      id: Date.now(),
+
       playerName,
+
       exam: selectedExam,
+
       score,
+
       totalQuestions: total,
+
       percentage,
+
       date: new Date().toLocaleDateString("en-GB")
+
     };
 
-    const savedResults = JSON.parse(localStorage.getItem("results")) || [];
-    savedResults.push(resultData);
-    localStorage.setItem("results", JSON.stringify(savedResults));
 
-  }, []); 
+
+    const savedResults =
+      JSON.parse(localStorage.getItem("results")) || [];
+
+
+
+    savedResults.push(resultData);
+
+
+
+    localStorage.setItem(
+      "results",
+      JSON.stringify(savedResults)
+    );
+
+
+
+  }, [percentage, playerName, score, selectedExam, total]);
+
+
+
+
 
   return (
+
     <div className="App">
+
       <div className="main-div result-card">
 
-        <h2>🎉 Exam Completed!</h2>
 
-        <h3>Congratulations, {playerName}</h3>
+        <h2>
+          🎉 Exam Completed!
+        </h2>
 
-        <p><b>Exam:</b> {selectedExam}</p>
 
-        <h3>Score: {score} / {total}</h3>
 
-        <h3>Percentage: {percentage}%</h3>
+        <h3>
+          Congratulations, {playerName}
+        </h3>
 
-        {/* BUTTONS */}
-        <button onClick={() => setPage("exam")}> Try Another Exam </button>
+
+
+        <p>
+          <b>Exam:</b> {selectedExam}
+        </p>
+
+
+
+        <h3>
+          Score: {score} / {total}
+        </h3>
+
+
+
+        <h3>
+          Percentage: {percentage}%
+        </h3>
+
+
+
+
+        <button
+          onClick={() => setPage("exam")}
+        >
+          Try Another Exam
+        </button>
+
+
+
 
         <button
           onClick={() => setShowReview(!showReview)}
-          style={{ marginTop: "10px" }}
+          style={{ marginTop:"10px" }}
         >
-          {showReview ? "Hide Result" : "Show Result"}
+
+          {
+            showReview
+            ?
+            "Hide Result"
+            :
+            "Show Result"
+          }
+
         </button>
 
-        {/* REVIEW SECTION */}
-        {showReview && (
-          <div className="review-section">
 
-            <h3>📘 Answer Review</h3>
 
-            {filtered.map((q, index) => {
-              const userAns = userAnswers?.[index];
 
-              return (
-                <div key={index} className="review-box">
 
-                  <p><b>{q.question}</b></p>
+        {
+          showReview && (
 
-                  {q.options.map((opt, i) => {
+            <div className="review-section">
 
-                    let color = "";
 
-                    if (opt === q.answer) {
-                      color = "green";
-                    }
+              <h3>
+                📘 Answer Review
+              </h3>
 
-                    if (opt === userAns && userAns !== q.answer) {
-                      color = "red";
-                    }
 
-                    return (
-                      <p key={i} style={{ color }}>
-                        {opt}
+
+
+              {
+                filtered.map((q,index)=>{
+
+
+                  const userAns =
+                  userAnswers?.[index];
+
+
+
+                  return (
+
+                    <div
+                      key={q.id}
+                      className="review-box"
+                    >
+
+
+                      <p>
+                        <b>
+                          {q.question}
+                        </b>
                       </p>
-                    );
-                  })}
 
-                </div>
-              );
-            })}
 
-          </div>
-        )}
+
+
+                      {
+                        q.options.map((opt,i)=>{
+
+
+                          let color="";
+
+
+
+                          if(opt === q.answer){
+
+                            color="green";
+
+                          }
+
+
+
+                          if(
+                            opt === userAns &&
+                            userAns !== q.answer
+                          ){
+
+                            color="red";
+
+                          }
+
+
+
+
+                          return (
+
+                            <p
+                              key={i}
+                              style={{color}}
+                            >
+
+                              {opt}
+
+                            </p>
+
+                          );
+
+
+                        })
+                      }
+
+
+
+                    </div>
+
+                  );
+
+
+                })
+              }
+
+
+
+            </div>
+
+          )
+        }
+
+
+
 
       </div>
+
     </div>
+
   );
+
+
 }
+
 
 export default Result;

@@ -7,13 +7,15 @@ import Quizz from './quizz';
 import Result from './result';
 import Admin from './Admin/Admin.jsx';
 
+
 function App() {
+
   const [playerName, setPlayerName] = useState("");
   const [page, setPage] = useState("home");
   const [selectedExam, setSelectedExam] = useState("");
   const [score, setScore] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
-
+  
   const defaultAdmin = {
     firstName: "Admin",
     email: "admin@gmail.com",
@@ -22,118 +24,124 @@ function App() {
   };
 
   const [users, setUsers] = useState(() => {
-    try {
-      const savedUsers = JSON.parse(localStorage.getItem("users")) || [];
 
-      // Check if admin already exists
+    try {
+
+      const savedUsers =
+        JSON.parse(localStorage.getItem("users")) || [];
+
+
       const adminExists = savedUsers.some(
         user => user.email === "admin@gmail.com"
       );
 
-      // If not, add admin
-      if (!adminExists) {
+      if(!adminExists){
         return [...savedUsers, defaultAdmin];
       }
-
       return savedUsers;
+
     } catch {
       return [defaultAdmin];
+
     }
+
   });
 
-  useEffect(() => {
-    localStorage.setItem("users", JSON.stringify(users));
-  }, [users]);
+  useEffect(()=>{
+
+    localStorage.setItem(
+      "users",
+      JSON.stringify(users)
+    );
+
+  },[users]);
+
 
   return (
+
     <>
-      {/* Home */}
-      {page === "home" && (
-        <div className="App">
-          <div className="main-div">
-            <h2>Welcome to Online Examination</h2>
 
-            <p className="sub-text">
-              Please log in to your existing account or sign up to create a new one to start your examination.
-            </p>
+    {page==="home" && (
+      <div className="App">
+        <div className="main-div">
+          <h2>
+            Welcome to Online Examination
+          </h2>
+          <p className="sub-text">
+          Please log in to your existing account or sign up to create a new one to start your examination.
+          </p>
+          <div className="innerdiv">
 
-            <div className="innerdiv">
-              <button
-                className="loginbutton"
-                onClick={() => setPage("login")}
-              >
-                Log In
-              </button>
-
-              <button
-                className="loginbutton"
-                onClick={() => setPage("signup")}
-              >
-                Sign Up
-              </button>
-            </div>
+            <button
+            className="loginbutton"
+            onClick={()=>setPage("login")}
+            >
+              Log In
+            </button>
+            <button
+            className="loginbutton"
+            onClick={()=>setPage("signup")}
+            >
+              Sign Up
+            </button>
           </div>
         </div>
-      )}
+      </div>
 
-      {/* Login */}
-      {page === "login" && (
-        <LoginIn
-          users={users}
-          setPage={setPage}
-          setPlayerName={setPlayerName}
-          page={page}
-          key={page}
-        />
-      )}
+    )}
 
-      {/* Signup */}
-      {page === "signup" && (
-        <SignIn
-          users={users}
-          setUsers={setUsers}
-          setPage={setPage}
-          page={page}
-          key={page}
-        />
-      )}
+    {page==="login" && (
 
-      {/* Exam Selection */}
-      {page === "exam" && (
-        <ExamSelection
-          setPage={setPage}
-          setSelectedExam={setSelectedExam}
-        />
-      )}
+      <LoginIn
 
-      {/* Quiz */}
-      {page === "quizz" && (
-        <Quizz
-          selectedExam={selectedExam}
-          setPage={setPage}
-          setScore={setScore}
-          userAnswers={userAnswers}
-          setUserAnswers={setUserAnswers}
-        />
-      )}
+      users={users}
+      setPage={setPage}
+      setPlayerName={setPlayerName}/>
+    )}
+    {page==="signup" && (
 
-      {/* Result */}
-      {page === "result" && (
-        <Result
-          score={score}
-          playerName={playerName}
-          setPage={setPage}
-          selectedExam={selectedExam}
-          userAnswers={userAnswers}
-        />
-      )}
+      <SignIn
 
-      {/* Admin */}
-      {page === "admin" && (
-        <Admin setPage={setPage} />
-      )}
+      users={users}
+      setUsers={setUsers}
+      setPage={setPage}
+      />
+    )}
+
+    {page==="exam" && (
+
+      <ExamSelection
+
+      setPage={setPage}
+      setSelectedExam={setSelectedExam} /> )}
+
+    {page==="quizz" && (
+
+      <Quizz
+      selectedExam={selectedExam}
+      setPage={setPage}
+      setScore={setScore}
+      userAnswers={userAnswers}
+      setUserAnswers={setUserAnswers}/>
+    )}
+    {page==="result" && (
+      <Result
+      score={score}
+      playerName={playerName}
+      setPage={setPage}
+      selectedExam={selectedExam}
+      userAnswers={userAnswers}
+
+      />
+
+    )}
+    {page==="admin" && (<Admin/>)}
+
     </>
+
   );
+
 }
+
 
 export default App;
